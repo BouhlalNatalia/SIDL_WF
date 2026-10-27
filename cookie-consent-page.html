@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Cookie-баннер — вайрфрейм</title>
+  <style>
+    * {
+      box-sizing: border-box
+    }
+
+    :root {
+      --ink: #1f2934;
+      --mut: #5b6672;
+      --line: #9aa3ae;
+      --bg: #f0f2f4;
+      --dim: #a5abb1;
+      --dim2: #959ca6;
+      --dimline: #7e8793
+    }
+
+    body {
+      margin: 0;
+      font: 16px/1.5 Arial, "Liberation Sans", sans-serif;
+      color: var(--ink);
+      background: #fff
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0
+    }
+
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px
+    }
+
+    section {
+      padding: 72px 0;
+      border-bottom: 1px dashed var(--line)
+    }
+
+    section.g {
+      background: var(--bg)
+    }
+
+    section:last-of-type {
+      border-bottom: 0
+    }
+
+    .lbl {
+      font: 700 11px Arial;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--mut);
+      margin-bottom: 10px
+    }
+
+    h1 {
+      font: 700 42px/1.2 Arial
+    }
+
+    h2 {
+      font: 700 32px/1.25 Arial;
+      margin-bottom: 14px
+    }
+
+    .lead {
+      color: var(--mut);
+      max-width: 720px
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 28px;
+      border-radius: 999px;
+      border: 1.3px solid var(--ink);
+      font: 700 15px Arial;
+      background: var(--ink);
+      color: #fff;
+      cursor: pointer;
+      white-space: nowrap
+    }
+
+    .btn.light {
+      background: #fff;
+      color: var(--ink)
+    }
+
+    .btn.sm {
+      min-height: 46px;
+      font-size: 14px;
+      padding: 0 26px
+    }
+
+    /* состояние 1 */
+    .stage {
+      margin-top: 36px;
+      background: var(--dim);
+      border-radius: 18px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .bar {
+      height: 34px;
+      background: var(--dim2);
+      border: 1px solid var(--dimline);
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      color: #4a5460
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 32px
+    }
+
+    .top .bar:first-child {
+      width: 126px
+    }
+
+    .top .bar:last-child {
+      width: 32%
+    }
+
+    .pg {
+      height: 204px;
+      background: var(--dim2);
+      border: 1px solid var(--dimline);
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      color: #4a5460
+    }
+
+    .line {
+      height: 12px;
+      border-radius: 6px;
+      background: var(--dim2);
+      margin-top: 16px
+    }
+
+    .cookie {
+      background: #fff;
+      border: 1.6px solid var(--ink);
+      border-radius: 16px;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      margin: 16px -14px -14px;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, .28)
+    }
+
+    .cookie h3 {
+      font: 700 19px Arial;
+      margin-bottom: 6px
+    }
+
+    .cookie p {
+      font-size: 14px;
+      color: var(--mut);
+      max-width: 440px;
+      line-height: 1.45
+    }
+
+    .cookie a {
+      color: inherit;
+      text-decoration: underline
+    }
+
+    .acts {
+      display: flex;
+      gap: 12px;
+      flex-wrap: nowrap;
+      justify-content: flex-end
+    }
+
+    .acts .btn {
+      padding: 0 24px
+    }
+
+    /* состояние 2 */
+    .modal {
+      margin: 40px auto 0;
+      max-width: 698px;
+      background: #fff;
+      border: 1.2px solid var(--line);
+      border-radius: 14px;
+      padding: 28px
+    }
+
+    .mh {
+      display: flex;
+      justify-content: space-between;
+      align-items: center
+    }
+
+    .mh h3 {
+      font: 700 24px Arial
+    }
+
+    .mh span {
+      font-size: 20px;
+      color: var(--mut)
+    }
+
+    .modal .sub {
+      font-size: 13px;
+      color: var(--mut);
+      margin: 12px 0 18px
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 14px 0;
+      border-top: 1px solid #dde1e6
+    }
+
+    .row b {
+      font-size: 15px
+    }
+
+    .row b small {
+      font: 700 10px Arial;
+      color: var(--mut);
+      margin-left: 4px
+    }
+
+    .row p {
+      font-size: 12px;
+      color: var(--mut)
+    }
+
+    .tg {
+      flex: none;
+      width: 48px;
+      height: 28px;
+      border-radius: 14px;
+      background: #cbd0d6;
+      position: relative;
+      border: 0;
+      cursor: pointer;
+      transition: background-color .15s
+    }
+
+    .tg::after {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #fff;
+      transition: transform .15s
+    }
+
+    .tg[aria-checked=true] {
+      background: var(--ink)
+    }
+
+    .tg[aria-checked=true]::after {
+      transform: translateX(20px)
+    }
+
+    .tg:disabled {
+      cursor: default
+    }
+
+    .foot {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 22px
+    }
+
+    /* состояние 3 */
+    .phone {
+      margin: 40px auto 0;
+      width: 380px;
+      max-width: 100%;
+      background: var(--dim);
+      border: 2.2px solid var(--ink);
+      border-radius: 28px;
+      padding: 24px 22px 14px
+    }
+
+    .phone .bar {
+      height: 30px;
+      margin-bottom: 22px
+    }
+
+    .phone .pg {
+      height: 180px;
+      border-radius: 12px
+    }
+
+    .phone .line {
+      width: 70%;
+      height: 14px;
+      margin: 14px 0 18px
+    }
+
+    .pc {
+      background: #fff;
+      border: 1.4px solid var(--ink);
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin: 0 -8px
+    }
+
+    .pc h3 {
+      font: 700 17px Arial;
+      margin-bottom: 6px
+    }
+
+    .pc p {
+      font-size: 12.5px;
+      color: var(--mut);
+      line-height: 1.45;
+      margin-bottom: 14px
+    }
+
+    .pc a {
+      color: inherit;
+      text-decoration: underline
+    }
+
+    .pc .btn {
+      display: flex;
+      width: 100%;
+      margin-top: 12px
+    }
+
+    .notes h3 {
+      font: 700 20px Arial;
+      margin-bottom: 14px
+    }
+
+    .notes p {
+      color: var(--mut);
+      font-size: 15px
+    }
+
+    @media (max-width:900px) {
+      h1 {
+        font-size: 34px
+      }
+
+      .stage {
+        padding: 20px
+      }
+
+      .cookie {
+        flex-direction: column;
+        align-items: stretch;
+        margin: 16px -6px -6px
+      }
+
+      .acts {
+        justify-content: stretch;
+        flex-wrap: wrap
+      }
+
+      .acts .btn {
+        flex: 1 1 100%
+      }
+
+      .foot .btn {
+        flex: 1 1 100%
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+
+      .tg,
+      .tg::after {
+        transition: none
+      }
+    }
+
+    .btn:focus-visible,
+    .tg:focus-visible {
+      outline: 3px solid #4a7bd0;
+      outline-offset: 2px
+    }
+  </style>
+</head>
+
+<body>
+<!-- DEMO BACK LINK: удалите этот блок, когда демо-ссылки больше не нужны -->
+<style>
+  .demo-back{background:#12181f;display:flex;align-items:center;justify-content:center;gap:12px;padding:10px 24px;font:13px Arial,Helvetica,sans-serif;color:#94a3b8}
+  .demo-back a{display:inline-flex;align-items:center;min-height:32px;padding:0 16px;border:1px solid #5d6875;border-radius:999px;color:#fff;font-weight:700;text-decoration:none;white-space:nowrap}
+  .demo-back a:hover{background:#fff;color:#202a34;border-color:#fff}
+  .demo-back a:focus-visible{outline:3px solid #7aa7ff;outline-offset:2px}
+</style>
+<div class="demo-back" role="navigation" aria-label="Демо вайрфрейма">
+  <span>Демо вайрфрейма</span>
+  <a href="index.html">← На главную</a>
+</div>
+  <section>
+    <div class="wrap">
+      <p class="lbl">Согласие на cookie</p>
+      <h1>Cookie-баннер</h1>
+      <p class="lead" style="margin-top:16px">Баннер при первом визите, окно настроек и мобильная версия. Показывается
+        на всех страницах до выбора.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="lbl">Состояние 1</p>
+      <h2>Баннер при первом визите</h2>
+      <p class="lead">Закреплён внизу экрана. «Принять все» и «Только необходимые» одинаковой заметности: отказ должен
+        быть так же прост, как согласие.</p>
+
+      <div class="stage">
+        <div class="top">
+          <div class="bar">Лого</div>
+          <div class="bar">меню</div>
+        </div>
+        <div class="pg">[Страница под баннером затемнена]</div>
+        <div class="line" style="width:60%"></div>
+        <div class="line" style="width:88%"></div>
+        <div class="cookie" role="region" aria-label="Cookie-баннер">
+          <div>
+            <h3>Мы используем файлы cookie</h3>
+            <p>Необходимые файлы нужны для работы сайта. Остальные помогают улучшать сайт и включаются только с вашего
+              согласия. Подробнее в <a href="privacy.html">Datenschutz</a>.</p>
+          </div>
+          <div class="acts">
+            <button class="btn" type="button">Принять все</button>
+            <button class="btn" type="button">Только необходимые</button>
+            <button class="btn light" type="button">Настроить</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="g">
+    <div class="wrap">
+      <p class="lbl">Состояние 2</p>
+      <h2>Окно настроек</h2>
+      <p class="lead">Открывается по кнопке «Настроить». Необходимые включены всегда, остальные выключены по умолчанию.
+      </p>
+
+      <div class="modal" role="dialog" aria-labelledby="mt">
+        <div class="mh">
+          <h3 id="mt">Настройки cookie</h3><span aria-hidden="true">✕</span>
+        </div>
+        <p class="sub">Выберите, какие файлы cookie вы разрешаете. Выбор можно изменить в любой момент.</p>
+
+        <div class="row">
+          <div><b id="l0">Необходимые<small>(всегда включены)</small></b>
+            <p>Нужны для работы сайта: язык, безопасность, ваши настройки cookie.</p>
+          </div>
+          <button class="tg" role="switch" aria-checked="true" aria-labelledby="l0" disabled></button>
+        </div>
+        <div class="row">
+          <div><b id="l1">Аналитика</b>
+            <p>Помогают понять, как используют сайт. [Перечень сервисов уточняется]</p>
+          </div>
+          <button class="tg" role="switch" aria-checked="false" aria-labelledby="l1"></button>
+        </div>
+        <div class="row">
+          <div><b id="l2">Маркетинг</b>
+            <p>Для показа релевантных материалов. [Перечень сервисов уточняется]</p>
+          </div>
+          <button class="tg" role="switch" aria-checked="false" aria-labelledby="l2"></button>
+        </div>
+
+        <div class="foot">
+          <button class="btn sm" type="button">Сохранить выбор</button>
+          <button class="btn sm" type="button">Принять все</button>
+          <button class="btn sm light" type="button">Только необходимые</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="lbl">Состояние 3</p>
+      <h2>Мобильная версия</h2>
+      <p class="lead">Кнопки друг под другом на всю ширину.</p>
+
+      <div class="phone">
+        <div class="bar">Лого и меню</div>
+        <div class="pg">[страница]</div>
+        <div class="line"></div>
+        <div class="pc" role="region" aria-label="Cookie-баннер, мобильная версия">
+          <h3>Мы используем файлы cookie</h3>
+          <p>Необходимые файлы нужны для работы сайта. Остальные помогают улучшать сайт и включаются только с вашего
+            согласия. Подробнее в <a href="privacy.html">Datenschutz</a>.</p>
+          <button class="btn" type="button">Принять все</button>
+          <button class="btn" type="button">Только необходимые</button>
+          <button class="btn light" type="button">Настроить</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="g notes">
+    <div class="wrap">
+      <h3>Заметки для дизайна и разработки</h3>
+      <p>После выбора баннер скрывается. Повторно настройки открываются ссылкой «Настройки cookie» в футере (её нужно
+        добавить на все страницы рядом с Datenschutz и Impressum). Перечень сервисов аналитики и маркетинга и тексты на
+        немецком уточняются с юристом.</p>
+    </div>
+  </section>
+
+  <script>
+    /* переключатели в окне настроек можно щёлкать (кроме «Необходимых») */
+    document.querySelectorAll('.tg:not(:disabled)').forEach(function (t) {
+      t.addEventListener('click', function () {
+        t.setAttribute('aria-checked', t.getAttribute('aria-checked') === 'true' ? 'false' : 'true');
+      });
+    });
+  </script>
+</body>
+
+</html>

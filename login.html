@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIDL — Вход в личный кабинет</title>
+    <style>
+        :root {
+            --ink: #202a34;
+            --muted: #65717d;
+            --line: #aeb9c3;
+            --pale: #f1f3f5;
+            --dark: #202a34;
+            --white: #fff;
+            --radius: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            line-height: 1.45;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1200px, calc(100% - 48px));
+            margin: auto;
+        }
+
+        /* HEADER */
+        header {
+            height: 88px;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            background: #fff;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: min(1340px, calc(100% - 48px));
+            margin: auto;
+            position: relative;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 20px;
+            z-index: 2;
+        }
+
+        .logo-placeholder {
+            height: 42px;
+            width: 42px;
+            border: 1px solid var(--line);
+            background: #eef0f2;
+            color: #697582;
+            display: grid;
+            place-items: center;
+            font-size: 10px;
+            font-weight: 400;
+        }
+
+        .links {
+            display: flex;
+            align-items: center;
+            gap: 34px;
+            font-size: 13px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 2;
+        }
+
+        .lang-switch {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--ink);
+            border-radius: 999px;
+            padding: 12px 28px;
+            font-size: 14px;
+            font-weight: 700;
+            background: var(--ink);
+            color: #fff;
+            white-space: nowrap;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .pill:hover {
+            opacity: 0.88;
+        }
+
+        /* LOGIN CONTENT */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 24px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 36px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+        }
+
+        .login-card h1 {
+            font-size: 24px;
+            margin: 0 0 8px;
+            font-weight: 700;
+        }
+
+        .login-card .subtitle {
+            font-size: 13px;
+            color: var(--muted);
+            margin: 0 0 24px;
+            line-height: 1.4;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 6px;
+        }
+
+        .field {
+            display: block;
+            width: 100%;
+            height: 44px;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 10px 14px;
+            background: #fff;
+            color: var(--ink);
+            outline: none;
+        }
+
+        .field:focus {
+            border-color: var(--ink);
+        }
+
+        .form-footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            margin-bottom: 24px;
+        }
+
+        .form-footer-row a {
+            color: var(--muted);
+            text-decoration: underline;
+        }
+
+        .info-box {
+            background: var(--pale);
+            border-radius: 6px;
+            padding: 14px;
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 24px;
+            line-height: 1.5;
+        }
+
+        .info-box a {
+            color: var(--ink);
+            font-weight: 700;
+            text-decoration: underline;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--dark);
+            color: #fff;
+            padding: 48px 0 32px;
+        }
+
+        .footer-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            padding-bottom: 32px;
+        }
+
+        .footer-brand {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .footer-brand small {
+            display: block;
+            font-size: 12px;
+            color: #aeb9c3;
+            font-weight: 400;
+            margin-top: 4px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 28px;
+            flex-wrap: wrap;
+            font-size: 13px;
+        }
+
+        .footer-links a {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            font-size: 12px;
+            color: #aeb9c3;
+        }
+
+        .legal-nav {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .legal-nav a {
+            color: #aeb9c3;
+        }
+
+        @media (max-width: 900px) {
+            .links {
+                position: static;
+                transform: none;
+                margin: 10px 0;
+            }
+
+            .nav {
+                flex-wrap: wrap;
+            }
+
+            .footer-top,
+            .footer-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <nav class="nav">
+            <a class="brand" href="index.html">
+                <span class="logo-placeholder">Лого</span>
+                <span>SIDL</span>
+            </a>
+
+            <div class="links">
+                <a href="organizations.html">Организациям</a>
+                <a href="it-experience.html">IT-опыт</a>
+                <a href="about.html">О нас</a>
+            </div>
+
+            <div class="nav-right">
+                <a href="#" class="lang-switch">DE ▾</a>
+                <a class="pill" href="login.html" style="padding: 10px 24px; font-size: 13px; width: auto;">Войти</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- MAIN LOGIN -->
+    <main>
+        <div class="login-card">
+            <h1>Вход в кабинет</h1>
+            <p class="subtitle">Введите ваш рабочий e-mail и пароль, указанные при подаче заявки.</p>
+
+            <form action="account.html" method="GET">
+                <div class="form-group">
+                    <label class="form-label" for="email">E-mail</label>
+                    <input class="field" type="email" id="email" placeholder="name@domain.org" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Пароль</label>
+                    <input class="field" type="password" id="password" placeholder="••••••••" required>
+                </div>
+
+                <div class="form-footer-row">
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                        <input type="checkbox"> Запомнить меня
+                    </label>
+                    <a href="#">Забыли пароль?</a>
+                </div>
+
+                <button class="pill" type="submit">Войти</button>
+            </form>
+
+            <div class="info-box">
+                У вас еще нет заявки? Доступ в личный кабинет предоставляется участникам проектов и представителям организаций после <a href="it-experience.html">подачи заявки</a>.
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    SIDL
+                    <small>Платформа цифровых инноваций</small>
+                </div>
+                <div class="footer-links">
+                    <a href="organizations.html">Организациям</a>
+                    <a href="it-experience.html">IT-опыт</a>
+                    <a href="about.html">О нас</a>
+                </div>
+                <a href="mailto:info@sidl.org">info@sidl.org</a>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 SIDL. Все права защищены.</span>
+                <div class="legal-nav">
+                    <a href="privacy.html">Datenschutz</a>
+                    <a href="impressum.html">Impressum</a>
+                    <a href="terms.html">Условия использования</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIDL — Окна и состояния форм</title>
+    <style>
+      :root{--ink:#202a34;--muted:#65717d;--line:#d7dde2;--page:#eef0f2;--white:#fff;--soft:#f7f8f9;--blue:#2563eb;--blue-soft:#eff6ff;--green:#15803d;--green-soft:#f0fdf4;--red:#b42318;--radius:16px;--shadow:0 10px 28px rgba(32,42,52,.08)}
+      *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--page);color:var(--ink);font:15px/1.5 Arial,Helvetica,sans-serif}a{color:inherit}.container{width:min(1440px,calc(100% - 48px));margin:0 auto}
+      .site-header{background:#fff;border-bottom:1px solid var(--line)}.nav{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-size:24px;font-weight:800;letter-spacing:-.04em;white-space:nowrap}.logo-mark{width:34px;height:34px;display:grid;place-items:center;border-radius:9px;background:var(--ink);color:#fff;font-size:12px}.nav-links{display:flex;align-items:center;gap:24px;flex-wrap:wrap}.nav-links a{font-size:14px;text-decoration:none;color:#3d4853}.nav-actions{display:flex;align-items:center;gap:12px;flex:none}.nav-actions .language{font-size:14px;text-decoration:none;color:#3d4853;white-space:nowrap}.login{display:inline-flex;align-items:center;justify-content:center;padding:10px 18px;border:1px solid var(--ink);border-radius:999px;background:var(--ink);color:#fff;font-weight:700;white-space:nowrap;text-decoration:none}.login:hover{background:#303d49}
+      main{padding:0 0 72px}.intro-wrap{padding:42px 0 8px}.intro{max-width:780px;margin:0 auto 28px}.intro h1{margin:0 0 13px;font-size:clamp(30px,4vw,44px);line-height:1.1;letter-spacing:-.04em}.intro>p{margin:0;color:var(--muted)}.eyebrow{margin:0 0 9px;color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+      .dropdown-section{padding:34px 0 38px;background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.dropdown-section h2{margin:0 0 8px;font-size:25px;letter-spacing:-.025em}.dropdown-intro{max-width:850px;margin:0 0 24px;color:var(--muted);font-size:14px}.dropdown-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start}.dropdown-demo{min-width:0;padding:18px;border:1px solid #e0e4e8;border-radius:12px;background:#f8f9fa}.dropdown-demo h3{min-height:34px;margin:0 0 14px;color:#58636e;font-size:11px;line-height:1.4;letter-spacing:.07em}.dropdown-label{display:block;margin-bottom:7px;font-size:13px;font-weight:700}.dropdown-control{min-height:44px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid #cfd6dd;border-radius:8px;background:#fff;color:#65717d;font-size:13px}.dropdown-options{margin-top:6px;border:1px solid #d7dde2;border-radius:8px;background:#fff;overflow:hidden;box-shadow:0 8px 20px rgba(32,42,52,.08)}.dropdown-option{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 11px;border-bottom:1px solid #edf0f2;font-size:12px;line-height:1.35}.dropdown-option:last-child{border-bottom:0}.dropdown-option small{flex:none;color:#65717d;font-size:10px}.dropdown-option:nth-child(3){background:#eff6ff}.dropdown-selected{margin-top:12px;padding:12px;border:1px solid #dbeafe;border-radius:9px;background:var(--blue-soft)}.dropdown-selected .eyebrow{margin-bottom:4px;color:#315ba8}.dropdown-selected strong{display:block;font-size:13px}.dropdown-selected p{margin:5px 0 0;color:#53657d;font-size:12px}.dropdown-caption{margin:10px 0 0;color:var(--muted);font-size:12px}.dropdown-table{width:100%;margin-top:24px;border-collapse:collapse;background:#fff;font-size:13px}.dropdown-table th,.dropdown-table td{padding:11px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.dropdown-table th{color:#58636e;background:#f7f8f9;font-size:10px;letter-spacing:.07em}.dropdown-rules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:22px}.dropdown-rule{padding:16px;border:1px solid var(--line);border-radius:10px}.dropdown-rule h3{margin:0 0 7px;font-size:14px}.dropdown-rule p{margin:0;color:var(--muted);font-size:12px}
+      .group{margin-top:44px}.group-head{margin:0 0 18px}.group-head h2{margin:0;font-size:25px;letter-spacing:-.025em}.group-head p{margin:5px 0 0;color:var(--muted);font-size:14px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start}.state{min-width:0;padding:18px;border:1px solid #e0e4e8;border-radius:var(--radius);background:#f8f9fa}.state-label{display:flex;align-items:center;gap:8px;margin:0 0 14px;color:#58636e;font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase}.state-label:before{content:"";width:7px;height:7px;border-radius:50%;background:#8b96a1;flex:none}.state-label.error:before{background:var(--red)}.state-label.success:before{background:var(--green)}
+      .modal{width:100%;min-width:0;margin:auto;overflow:hidden;border:1px solid #e3e7eb;border-radius:14px;background:#fff;box-shadow:var(--shadow)}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:17px 18px;border-bottom:1px solid #edf0f2;font-size:18px;font-weight:800;letter-spacing:-.025em}.close{display:grid;place-items:center;width:30px;height:30px;flex:none;border:0;border-radius:50%;background:#f1f3f5;color:#58636e;font-size:22px;line-height:1}.modal-body{padding:18px}.description{margin:0 0 18px;color:var(--muted);font-size:13px}.selected{margin:0 0 18px;padding:12px;border:1px solid #dbeafe;border-radius:10px;background:var(--blue-soft)}.selected .eyebrow{margin-bottom:5px;color:#315ba8}.selected strong{display:block;margin-bottom:4px;font-size:14px}.selected p{margin:0 0 7px;color:#53657d;font-size:12px}.selected a{font-size:12px;color:#1d4ed8;font-weight:700;text-decoration:none}.fields{display:grid;gap:13px}.field-group{min-width:0}.label{display:block;margin-bottom:6px;font-size:12px;font-weight:700}.optional{color:var(--muted);font-size:11px;font-weight:400}.field{display:block;width:100%;min-height:42px;padding:10px 11px;border:1px solid #cfd6dd;border-radius:8px;outline:none;background:#fff;color:var(--ink);font:13px Arial,Helvetica,sans-serif}.field::placeholder{color:#89939d}textarea.field{min-height:76px;resize:vertical}.field:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.12)}.field.invalid{border-color:var(--red)}.hint{margin:5px 0 0;color:var(--muted);font-size:12px}.error-text{margin:5px 0 0;color:var(--red);font-size:11px}.roles{display:flex;flex-wrap:wrap;gap:6px}.chip{display:inline-flex;align-items:center;gap:5px;min-height:31px;padding:6px 8px;border:1px solid #d6dde4;border-radius:7px;background:#fff;color:#34404b;font-size:11px}.chip input,.consent input{accent-color:var(--blue)}.consent{display:flex;align-items:flex-start;gap:8px;color:#515d68;font-size:11px;line-height:1.45}.consent input{margin-top:3px;flex:none}.consent a{color:#315ba8}.consent-error{margin:6px 0 0 22px;color:var(--red);font-size:11px}.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:43px;padding:11px 16px;border:1px solid var(--ink);border-radius:999px;background:var(--ink);color:#fff;font:700 13px Arial,Helvetica,sans-serif;text-align:center;text-decoration:none;cursor:pointer}.btn:hover{background:#303d49}.note{margin:11px 0 0;color:var(--muted);font-size:11px;text-align:center}
+      .success-body{padding:25px 19px 20px;text-align:center}.success-icon{display:grid;place-items:center;width:48px;height:48px;margin:0 auto 14px;border-radius:50%;background:var(--green-soft);color:var(--green);font-size:27px;font-weight:700}.success-body h3{margin:0 0 9px;font-size:21px;line-height:1.2;letter-spacing:-.03em}.success-body>.lead{margin:0 auto 19px;color:var(--muted);font-size:13px}.steps{display:grid;gap:10px;margin:0 0 18px;text-align:left}.step{display:flex;align-items:flex-start;gap:10px;padding:11px;border:1px solid #e5e9ed;border-radius:10px;background:#fbfcfd}.step-icon{display:grid;place-items:center;width:30px;height:30px;flex:none;border-radius:8px;background:#edf3ff;color:#2455b4;font-size:16px;font-weight:700}.step strong{display:block;margin-bottom:3px;font-size:12px}.step p{margin:0;color:var(--muted);font-size:11px}
+      .site-footer{padding:30px 0 20px;background:var(--ink);color:#fff}.footer-top{display:flex;align-items:flex-start;justify-content:space-between;gap:28px;padding-bottom:24px}.footer-brand{font-size:22px;font-weight:800}.footer-brand small{display:block;margin-top:5px;color:#c1c8cf;font-size:12px;font-weight:400}.footer-links{display:flex;flex-wrap:wrap;gap:18px}.footer-links a,.footer-top>a{color:#e1e5e9;font-size:13px;text-decoration:none}.footer-bottom{display:flex;justify-content:space-between;gap:18px;padding-top:18px;border-top:1px solid rgba(255,255,255,.16);color:#c1c8cf;font-size:12px}.legal{display:flex;flex-wrap:wrap;gap:16px}.legal a{color:#c1c8cf;text-decoration:none}
+      @media(max-width:1100px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.dropdown-grid,.dropdown-rules{grid-template-columns:1fr}.dropdown-table{font-size:12px}}
+      @media(max-width:760px){.container{width:calc(100% - 28px)}.nav{align-items:flex-start;padding:16px 0;flex-wrap:wrap}.nav-links{gap:12px}.grid{grid-template-columns:1fr}.dropdown-table th,.dropdown-table td{padding:8px 6px}.footer-top,.footer-bottom{display:grid}.intro-wrap{padding-top:30px}.state{padding:12px}}
+      @media(max-width:480px){.nav{display:flex}.nav-links{width:100%;justify-content:flex-start}.nav-actions{margin-left:auto}.login{margin-left:0}.modal-head{padding:15px;font-size:17px}.modal-body{padding:15px}.success-body{padding:22px 15px 18px}}
+    </style>
+</head>
+<body>
+        <header class="site-header">
+        <div class="container nav">
+            <a class="brand" href="index.html"><span class="logo-mark">Лого</span><span>SIDL</span></a>
+            <nav class="nav-links" aria-label="Основная навигация">
+                <a href="organizations.html">Организациям</a>
+                <a href="it-experience.html">IT-опыт</a>
+                <a href="about.html">О нас</a>
+            </nav>
+            <div class="nav-actions">
+                <a class="language" href="#language">DE ▾</a>
+                <a class="login" href="#login">Войти</a>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="intro-wrap">
+            <section class="container intro">
+                <h1>Окна и состояния форм</h1>
+                <p>Состояния модальных форм M1, M2 и M3: начальное заполнение, ошибки и успешная отправка. E-mail обязателен, телефон необязателен во всех формах.<br>Регистрация «тихая»: после отправки на e-mail приходит ссылка для входа.</p>
+            </section>
+        </div>
+        <section class="dropdown-section">
+            <div class="container">
+                <p class="eyebrow">Дополнение к M1</p>
+                <h2>Выпадающий список «Тип задачи»</h2>
+                <p class="dropdown-intro">Девять пунктов: восемь карточек со страницы «Организациям» и «Другая задача или идея». Названия совпадают с карточками.</p>
+                <div class="dropdown-grid">
+                    <article class="dropdown-demo">
+                        <h3>1 · ЗАКРЫТ, НИЧЕГО НЕ ВЫБРАНО</h3>
+                        <label class="dropdown-label">Тип задачи (необязательно)</label>
+                        <div class="dropdown-control"><span>Выберите, что у вас за задача</span><span>⌄</span></div>
+                    </article>
+                    <article class="dropdown-demo">
+                        <h3>2 · ОТКРЫТ (СТРОКА 3 ПОД КУРСОРОМ)</h3>
+                        <label class="dropdown-label">Тип задачи (необязательно)</label>
+                        <div class="dropdown-control"><span>Выберите, что у вас за задача</span><span>⌄</span></div>
+                        <div class="dropdown-options">
+                            <div class="dropdown-option"><span>Сайт устарел или неудобен с телефона</span><small>Редизайн сайта</small></div>
+                            <div class="dropdown-option"><span>Нужна страница с информацией об организации</span><small>Сайт-визитка</small></div>
+                            <div class="dropdown-option"><span>Нужна страница для события или кампании</span><small>Лендинг</small></div>
+                            <div class="dropdown-option"><span>Нужно показать деятельность, проекты и новости</span><small>Сайт организации</small></div>
+                            <div class="dropdown-option"><span>Хочется упростить внутренние процессы</span><small>Веб-приложение</small></div>
+                            <div class="dropdown-option"><span>Неудобно обновлять страницы и публиковать новости</span><small>Управление контентом</small></div>
+                            <div class="dropdown-option"><span>Запутанная навигация или нужен прототип</span><small>UI/UX-дизайн</small></div>
+                            <div class="dropdown-option"><span>Нужен узнаваемый визуальный стиль</span><small>Брендинг и айдентика</small></div>
+                            <div class="dropdown-option"><span>Другая задача или идея</span></div>
+                        </div>
+                    </article>
+                    <article class="dropdown-demo">
+                        <h3>3 · ВЫБРАНО</h3>
+                        <label class="dropdown-label">Тип задачи (необязательно)</label>
+                        <div class="dropdown-control"><span>Сайт устарел или неудобен с телефона</span><span>⌄</span></div>
+                        <div class="dropdown-selected"><span class="eyebrow">Вы выбрали</span><strong>Сайт устарел или неудобен с телефона</strong><p>Структура устарела или посетителям трудно пользоваться сайтом с телефона.</p></div>
+                        <p class="dropdown-caption">Так выглядит окно, если человек нажал на карточку на странице. Список в этом случае уже заполнен.</p>
+                    </article>
+                </div>
+                <table class="dropdown-table">
+                    <thead><tr><th>№</th><th>ТЕКСТ ПУНКТА (СОВПАДАЕТ С КАРТОЧКОЙ)</th><th>МЕЛКАЯ ПОДПИСЬ СПРАВА</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>Сайт устарел или неудобен с телефона</td><td>Редизайн сайта</td></tr>
+                        <tr><td>2</td><td>Нужна страница с информацией об организации</td><td>Сайт-визитка</td></tr>
+                        <tr><td>3</td><td>Нужна страница для события или кампании</td><td>Лендинг</td></tr>
+                        <tr><td>4</td><td>Нужно показать деятельность, проекты и новости</td><td>Сайт организации</td></tr>
+                        <tr><td>5</td><td>Хочется упростить внутренние процессы</td><td>Веб-приложение</td></tr>
+                        <tr><td>6</td><td>Неудобно обновлять страницы и публиковать новости</td><td>Управление контентом</td></tr>
+                        <tr><td>7</td><td>Запутанная навигация или нужен прототип</td><td>UI/UX-дизайн</td></tr>
+                        <tr><td>8</td><td>Нужен узнаваемый визуальный стиль</td><td>Брендинг и айдентика</td></tr>
+                        <tr><td>9</td><td>Другая задача или идея</td><td>—</td></tr>
+                    </tbody>
+                </table>
+                <div class="rules-grid">
+                    <article class="rule-card"><h3>Правила списка</h3><p>Пункты повторяют заголовки карточек слово в слово, поэтому человек, пришедший с карточки, и тот, кто открыл окно кнопкой «Обсудить проект», видят один и тот же язык.</p><p>Название услуги стоит мелким справа: оно нужно специалисту, но не обязательно для заказчика.</p><p>«Другая задача или идея» всегда последняя, как и карточка на странице.</p><p>Поле необязательное: пустое значение не даёт ошибки.</p></article>
+                    <article class="rule-card"><h3>Поведение</h3><p>Если окно открыто с карточки, выбранный пункт стоит в списке, а блок «Вы выбрали» показывает заголовок и пояснение карточки. Кнопка «Изменить» открывает список.</p><p>Если окно открыто без карточки, поле пустое и блока «Вы выбрали» нет; после выбора пункта блок появляется.</p><p>Список закрывается по Escape и по клику вне него; выбор доступен с клавиатуры (стрелки и Enter).</p></article>
+                    <article class="rule-card"><h3>На телефоне</h3><p>Список открывается снизу как панель на всю ширину, высота до 70% экрана, с прокруткой.</p><p>Каждая строка не ниже 48 px. Закрытие по крестику и по тапу на затемнение.</p></article>
+                </div>
+            </div>
+        </section>
+        <section class="group" aria-labelledby="m1"><div class="container">
+
+            <div class="group-head">
+                <h2 id="m1">M1 · Запрос организации</h2>
+                <p>Обсудить проект или сотрудничество с SIDL.</p>
+            </div>
+            <div class="grid">
+                <article class="state">
+                    <p class="state-label">Начальное состояние · тип задачи не выбран</p>
+                    <div class="modal">
+                        <div class="modal-head"><span>Обсудить проект</span><span class="close"
+                                aria-hidden="true">×</span></div>
+                        <div class="modal-body">
+                            <p class="description">Расскажите, что вам нужно. Если вы пока не знаете, к какому типу
+                                относится задача, мы поможем определиться.</p>
+                            <form class="fields">
+                                <div class="field-group"><label class="label" for="m1-type">Тип задачи <span
+                                            class="optional">(необязательно)</span></label><select class="field"
+                                        id="m1-type">
+                                        <option value="" selected>Выберите тип задачи</option>
+                                        <option>Создание или улучшение сайта</option>
+                                        <option>Разработка приложения или цифрового продукта</option>
+                                        <option>Дизайн и пользовательский интерфейс</option>
+                                        <option>Другая задача</option>
+                                        <option>Пока не знаю — нужна консультация</option>
+                                    </select></div>
+                                <div class="field-group"><label class="label" for="m1-name">Контактное лицо
+                                        *</label><input class="field" id="m1-name" placeholder="Имя и фамилия"></div>
+                                <div class="field-group"><label class="label" for="m1-org">Организация *</label><input
+                                        class="field" id="m1-org" placeholder="Название организации"></div>
+                                <div class="field-group"><label class="label" for="m1-email">Рабочий e-mail
+                                        *</label><input class="field" id="m1-email" type="email"
+                                        placeholder="name@company.de"></div>
+                                <div class="field-group"><label class="label" for="m1-phone">Телефон <span
+                                            class="optional">(необязательно)</span></label><input class="field"
+                                        id="m1-phone" type="tel" placeholder="+49 …"></div>
+                                <div class="field-group"><label class="label" for="m1-desc">Краткое описание задачи
+                                        *</label><textarea class="field" id="m1-desc"
+                                        placeholder="Расскажите о вашей идее или задаче"></textarea></div><label
+                                    class="consent"><input type="checkbox"><span>Я согласен(на) на обработку
+                                        персональных данных. <a href="#">Политика
+                                            конфиденциальности</a></span></label><button class="btn"
+                                    type="button">Отправить запрос</button>
+                            </form>
+                            <p class="note">* Обязательные поля. Тип задачи и телефон можно не указывать.</p>
+                        </div>
+                    </div>
+                </article>
+                <article class="state">
+                    <p class="state-label error">Состояние · ошибки полей</p>
+                    <div class="modal">
+                        <div class="modal-head"><span>Обсудить проект</span><span class="close"
+                                aria-hidden="true">×</span></div>
+                        <div class="modal-body">
+                            <div class="selected">
+                                <p class="eyebrow">Вы выбрали</p><strong>Создание или улучшение сайта</strong>
+                                <p>Структура устарела или посетителям трудно пользоваться сайтом с телефона.</p><a
+                                    href="#">Изменить</a>
+                            </div>
+                            <form class="fields">
+                                <div class="field-group"><label class="label" for="m1e-name">Контактное лицо
+                                        *</label><input class="field invalid" id="m1e-name" placeholder="Имя и фамилия">
+                                    <p class="error-text">Укажите контактное лицо.</p>
+                                </div>
+                                <div class="field-group"><label class="label" for="m1e-org">Организация *</label><input
+                                        class="field" id="m1e-org" placeholder="Название организации"></div>
+                                <div class="field-group"><label class="label" for="m1e-email">Рабочий e-mail
+                                        *</label><input class="field invalid" id="m1e-email" type="email"
+                                        placeholder="name@company.de">
+                                    <p class="error-text">Введите корректный e-mail.</p>
+                                </div>
+                                <div class="field-group"><label class="label" for="m1e-phone">Телефон <span
+                                            class="optional">(необязательно)</span></label><input class="field"
+                                        id="m1e-phone" type="tel" placeholder="+49 …"></div>
+                                <div class="field-group"><label class="label" for="m1e-desc">Краткое описание задачи
+                                        *</label><textarea class="field" id="m1e-desc"
+                                        placeholder="Расскажите о вашей идее или задаче"></textarea></div>
+                                <div><label class="consent"><input type="checkbox"><span>Я согласен(на) на обработку
+                                            персональных данных. <a href="#">Политика
+                                                конфиденциальности</a></span></label>
+                                    <p class="consent-error">Необходимо согласие на обработку данных.</p>
+                                </div><button class="btn" type="button">Отправить запрос</button>
+                            </form>
+                            <p class="note">Тип задачи и телефон не вызывают ошибку, если не заполнены.</p>
+                        </div>
+                    </div>
+                </article>
+                <article class="state">
+                    <p class="state-label success">Успешная отправка</p>
+                    <div class="modal">
+                        <div class="success-body">
+                            <div class="success-icon" aria-hidden="true">✓</div>
+                            <h3>Ваш запрос отправлен!</h3>
+                            <p class="lead">Спасибо за интерес к SIDL! Мы получили ваш запрос на сотрудничество.</p>
+                            <div class="steps">
+                                <div class="step"><span class="step-icon" aria-hidden="true">✉</span>
+                                    <div><strong>Проверьте свою электронную почту</strong>
+                                        <p>Мы отправили ссылку для входа в личный кабинет на указанный e-mail.</p>
+                                    </div>
+                                </div>
+                                <div class="step"><span class="step-icon" aria-hidden="true">↗</span>
+                                    <div><strong>Следите за статусом запроса</strong>
+                                        <p>В личном кабинете вы сможете отслеживать статус рассмотрения вашего запроса.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div><button class="btn" type="button">Понятно</button>
+                            <p class="note">Если письмо не пришло, проверьте папку «Спам».</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div></section>
+        <section class="group" aria-labelledby="m2"><div class="container">
+            <div class="group-head">
+                <h2 id="m2">M2 · Заявка на конкретный проект</h2>
+                <p>Участник откликается на выбранный проект.</p>
+            </div>
+            <div class="grid">
+                <article class="state">
+                    <p class="state-label">Начальное состояние</p>
+                    <div class="modal">
+                        <div class="modal-head"><span>Заявка на участие</span><span class="close"
+                                aria-hidden="true">×</span></div>
+                        <div class="modal-body">
+                            <div class="selected">
+                                <p class="eyebrow">Выбранный проект</p><strong>Цифровая платформа SIDL</strong>
+                                <p>Подайте заявку, чтобы команда могла рассмотреть ваш опыт и интересы.</p>
+                            </div>
+                            <form class="fields">
+                                <div class="field-group"><label class="label" for="m2-name">Имя и фамилия
+                                        *</label><input class="field" id="m2-name" placeholder="Ваше имя и фамилия">
+                                </div>
+                                <div class="field-group"><label class="label" for="m2-email">E-mail *</label><input
+                                        class="field" id="m2-email" type="email" placeholder="name@example.com"></div>
+                                <div class="field-group"><label class="label" for="m2-phone">Телефон <span
+                                            class="optional">(необязательно)</span></label><input class="field"
+                                        id="m2-phone" type="tel" placeholder="+49 …"></div>
+                                <div class="field-group"><span class="label">Интересующие роли * <span
+                                            class="optional">(можно выбрать несколько)</span></span>
+                                    <div class="roles"><label class="chip"><input type="checkbox">
+                                            UI/UX-дизайн</label><label class="chip"><input type="checkbox">
+                                            Frontend</label><label class="chip"><input type="checkbox">
+                                            Backend</label><label class="chip"><input type="checkbox"> QA</label><label
+                                            class="chip"><input type="checkbox"> Управление проектами</label><label
+                                            class="chip"><input type="checkbox"> Аналитика</label><label
+                                            class="chip"><input type="checkbox"> Другое</label></div>
+                                </div><label class="consent"><input type="checkbox"><span>Я согласен(на) на обработку
+                                        персональных данных. <a href="#">Политика
+                                            конфиденциальности</a></span></label><button class="btn"
+                                    type="button">Отправить заявку</button>
+                            </form>
+                            <p class="note">* Обязательные поля. Телефон указывать необязательно.</p>
+                        </div>
+                    </div>
+                </article>
+                <article class="state">
+                    <p class="state-label error">Состояние · ошибки полей</p>
+                    <div class="modal">
+                        <div class="modal-head"><span>Заявка на участие</span><span class="close"
+                                aria-hidden="true">×</span></div>
+                        <div class="modal-body">
+                            <div class="selected">
+                                <p class="eyebrow">Выбранный проект</p><strong>Цифровая платформа SIDL</strong><a
+                                    href="#">Изменить выбор</a>
+                            </div>
+                            <form class="fields">
+                                <div class="field-group"><label class="label" for="m2e-name">Имя и фамилия
+                                        *</label><input class="field invalid" id="m2e-name"
+                                        placeholder="Ваше имя и фамилия">
+                                    <p class="error-text">Укажите имя и фамилию.</p>
+                                </div>
+                                <div class="field-group"><label class="label" for="m2e-email">E-mail *</label><input
+                                        class="field invalid" id="m2e-email" type="email" value="name@">
+                                    <p class="error-text">Введите корректный e-mail.</p>
+                                </div>
+                                <div class="field-group"><label class="label" for="m2e-phone">Телефон <span
+                                            class="optional">(необязательно)</span></label><input class="field"
+                                        id="m2e-phone" type="tel" placeholder="+49 …"></div>
+                                <div class="field-group"><span class="label">Интересующие роли *</span>
+                                    <div class="roles"><label class="chip"><input type="checkbox">
+                                            UI/UX-дизайн</label><label class="chip"><input type="checkbox">
+                                            Frontend</label><label class="chip"><input type="checkbox">
+                                            Backend</label><label class="chip"><input type="checkbox"> QA</label><label
+                                            class="chip"><input type="checkbox"> Управление проектами</label><label
+                                            class="chip"><input type="checkbox"> Аналитика</label><label
+                                            class="chip"><input type="checkbox"> Другое</label></div>
+                                    <p class="error-text">Выберите хотя бы одну роль.</p>
+                                </div>
+                                <div><label class="consent"><input type="checkbox"><span>Я согласен(на) на обработку
+                                            персональных данных. <a href="#">Политика
+                                                конфиденциальности</a></span></label>
+                                    <p class="consent-error">Необходимо согласие на обработку данных.</p>
+                                </div><button class="btn" type="button">Отправить заявку</button>
+                            </form>
+                            <p class="note">Телефон необязателен и не отображается как ошибка.</p>
+                        </div>
+                    </div>
+                </article>
+                <article class="state">
+                    <p class="state-label success">Успешная отправка</p>
+                    <div class="modal">
+                        <div class="success-body">
+                            <div class="success-icon" aria-hidden="true">✓</div>
+                            <h3>Ваша заявка отправлена!</h3>
+                            <p class="lead">Мы получили вашу заявку на участие в выбранном проекте.</p>
+                            <div class="steps">
+                                <div class="step"><span class="step-icon" aria-hidden="true">✉</span>
+                                    <div><strong>Проверьте свою электронную почту</strong>
+                                        <p>Мы отправили ссылку для входа в личный кабинет на указанный e-mail.</p>
+                                    </div>
+                                </div>
+                                <div class="step"><span class="step-icon" aria-hidden="true">↗</span>
+                                    <div><strong>Следите за статусом заявки</strong>
+                                        <p>В личном кабинете вы сможете отслеживать статус рассмотрения вашей заявки.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div><button class="btn" type="button">Понятно</button>
+                            <p class="note">Если письмо не пришло, проверьте папку «Спам».</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div></section>
+        <section class="group" aria-labelledby="m3"><div class="container">
+            <div class="group-head">
+                <h2 id="m3">M3 · Заявка на будущие проекты</h2>
+                <p>Участник рассказывает о своих интересах, даже если подходящего проекта пока нет.</p>
+            </div>
+            <div class="grid">
+                <article class="state">
+                    <p class="state-label">Начальное состояние</p>
+                    <div class="modal">
+                        <div class="modal-head"><span>Заявка на будущие проекты</span><span class="close"
+                                aria-hidden="true">×</span></div>
+                        <div class="modal-body">
+                            <p class="description">Расскажите о своих интересах. Когда появится подходящий проект, мы
+                                свяжемся с вами.</p>
+                            <form class="fields">
+                                <div class="field-group"><label class="label" for="m3-name">Имя и фамилия
+                                        *</label><input class="field" id="m3-name" placeholder="Ваше имя и фамилия">
+                                </div>
+                                <div class="field-group"><label class="label" for="m3-email">E-mail *</label><input
+                                        class="field" id="m3-email" type="email" placeholder="name@example.com"></div>
+                                <div class="field-group"><label class="label" for="m3-phone">Телефон <span
+                                            class="optional">(необязательно)</span></label><input class="field"
+                                        id="m3-phone" type="tel" placeholder="+49 …"></div>
+                                <div class="field-group"><span class="label">Интересующие роли * <span
+                                            class="optional">(можно выбрать несколько)</span></span>
+                                    <div class="roles"><label class="chip"><input type="checkbox">
+                                            UI/UX-дизайн</label><label class="chip"><input type="checkbox">
+                                            Frontend</label><label class="chip"><input type="checkbox">
+                                            Backend</label><label class="chip"><input type="checkbox"> QA</label><label
+                                            class="chip"><input type="checkbox"> Управление проектами</label><label
+                                            class="chip"><input type="checkbox"> Аналитика</label><label
+                                            class="chip"><input type="checkbox"> Другое</label></div>
+                                </div>
+                                <div class="field-group"><label class="label" for="m3-about">Коротко о себе <span
+                                            class="optional">(необязательно)</span></label><textarea class="field"
+                                        id="m3-about" placeholder="Ваш опыт, интересы или навыки"></textarea></div>
+                                <label class="consent"><input type="checkbox"><span>Я согласен(на) на обработку
+                                        персональных данных. <a href="#">Политика
+                                            конфиденциальности</a></span></label><button class="btn"
+                                    type="button">Отправить заявку</button>
+                            </form>
+                            <p class="note">* Обязательные поля. Телефон и краткое описание можно не заполнять.</p>
+                        </div>
+                    </div>
+                </article>
+                <article class="state">
+                    <p class="state-label success">Успешная отправка</p>
+                    <div class="modal">
+                        <div class="success-body">
+                            <div class="success-icon" aria-hidden="true">✓</div>
+                            <h3>Мы получили вашу заявку!</h3>
+                            <p class="lead">Когда появится подходящий проект, мы свяжемся с вами.</p>
+                            <div class="steps">
+                                <div class="step"><span class="step-icon" aria-hidden="true">✉</span>
+                                    <div><strong>Проверьте свою электронную почту</strong>
+                                        <p>Мы отправили ссылку для входа в личный кабинет на указанный e-mail.</p>
+                                    </div>
+                                </div>
+                                <div class="step"><span class="step-icon" aria-hidden="true">↗</span>
+                                    <div><strong>Оставайтесь на связи</strong>
+                                        <p>В личном кабинете вы сможете следить за статусом своей заявки.</p>
+                                    </div>
+                                </div>
+                            </div><button class="btn" type="button">Понятно</button>
+                            <p class="note">Если письмо не пришло, проверьте папку «Спам».</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div></section>
+    </main>
+
+        <section class="group" aria-labelledby="m4">
+            <div class="container">
+                <div class="group-head">
+                    <h2 id="m4">M4 · Форма обратной связи</h2>
+                    <p>Общий вопрос, предложение или сообщение команде Seedle.</p>
+                </div>
+                <div class="grid">
+                    <article class="state">
+                        <p class="state-label">Начальное состояние</p>
+                        <div class="modal">
+                            <div class="modal-head"><span>Написать нам</span><span class="close" aria-hidden="true">×</span></div>
+                            <div class="modal-body">
+                                <p class="description">Расскажите о себе и теме обращения. Команда Seedle ознакомится с вашим обращением и свяжется с вами удобным для вас способом.</p>
+                                <form class="fields" onsubmit="return false;">
+                                    <div class="field-group">
+                                        <label class="label" for="m4-name">Имя или организация *</label>
+                                        <input class="field" id="m4-name" placeholder="Как к вам обращаться" required>
+                                    </div>
+                                    <div class="field-group">
+                                        <label class="label" for="m4-email">Электронная почта *</label>
+                                        <input class="field" id="m4-email" type="email" placeholder="name@example.com" required>
+                                    </div>
+                                    <div class="field-group">
+                                        <label class="label" for="m4-phone">Телефон <span class="optional">(необязательно)</span></label>
+                                        <input class="field" id="m4-phone" type="tel" autocomplete="tel" placeholder="+49 …">
+                                        <p class="hint">Укажите номер, если вам удобнее получить ответ по телефону.</p>
+                                    </div>
+                                    <div class="field-group">
+                                        <label class="label" for="m4-message">Ваше сообщение *</label>
+                                        <textarea class="field" id="m4-message" placeholder="Напишите ваш вопрос или предложение" required></textarea>
+                                    </div>
+                                    <label class="consent"><input type="checkbox" required><span>Я согласен(на) на обработку персональных данных. <a href="privacy.html">Политика конфиденциальности</a></span></label>
+                                    <button class="btn" type="button">Отправить сообщение</button>
+                                </form>
+                                <p class="note">* Обязательные поля.</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="state">
+                        <p class="state-label error">Состояние · ошибки полей</p>
+                        <div class="modal">
+                            <div class="modal-head"><span>Написать нам</span><span class="close" aria-hidden="true">×</span></div>
+                            <div class="modal-body">
+                                <p class="description">Проверьте данные, отмеченные ниже, и отправьте сообщение ещё раз.</p>
+                                <form class="fields" onsubmit="return false;">
+                                    <div class="field-group">
+                                        <label class="label" for="m4e-name">Имя или организация *</label>
+                                        <input class="field invalid" id="m4e-name" placeholder="Как к вам обращаться" aria-invalid="true">
+                                        <p class="error-text">Укажите имя или организацию.</p>
+                                    </div>
+                                    <div class="field-group">
+                                        <label class="label" for="m4e-email">Электронная почта *</label>
+                                        <input class="field invalid" id="m4e-email" type="email" value="name@" aria-invalid="true">
+                                        <p class="error-text">Введите корректный e-mail.</p>
+                                    </div>
+                                    <div class="field-group">
+                                        <label class="label" for="m4e-phone">Телефон <span class="optional">(необязательно)</span></label>
+                                        <input class="field" id="m4e-phone" type="tel" autocomplete="tel" placeholder="+49 …">
+                                    </div>
+                                    <div class="field-group">
+                                        <label class="label" for="m4e-message">Ваше сообщение *</label>
+                                        <textarea class="field invalid" id="m4e-message" aria-invalid="true" placeholder="Напишите ваш вопрос или предложение"></textarea>
+                                        <p class="error-text">Введите текст сообщения.</p>
+                                    </div>
+                                    <div>
+                                        <label class="consent"><input type="checkbox"><span>Я согласен(на) на обработку персональных данных. <a href="privacy.html">Политика конфиденциальности</a></span></label>
+                                        <p class="consent-error">Необходимо согласие на обработку данных.</p>
+                                    </div>
+                                    <button class="btn" type="button">Отправить сообщение</button>
+                                </form>
+                                <p class="note">Ошибки показываются под соответствующими полями.</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="state">
+                        <p class="state-label success">Успешная отправка</p>
+                        <div class="modal">
+                            <div class="success-body">
+                                <div class="success-icon" aria-hidden="true">✓</div>
+                                <h3>Спасибо за обращение!</h3>
+                                <p class="lead">Ваше сообщение успешно отправлено.</p>
+                                <div class="steps">
+                                    <div class="step">
+                                        <span class="step-icon" aria-hidden="true">✉</span>
+                                        <div><strong>Что дальше?</strong><p>Команда Seedle ознакомится с вашим обращением и свяжется с вами удобным для вас способом.</p></div>
+                                    </div>
+                                </div>
+                                <button class="btn" type="button">Понятно</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">SIDL<small>Платформа цифровых инноваций</small></div>
+                <nav class="footer-links" aria-label="Навигация в подвале"><a
+                        href="#">Организациям</a><a href="#">IT-опыт</a><a href="#">О нас</a></nav><a
+                    href="mailto:info@sidl.org">info@sidl.org</a>
+            </div>
+            <div class="footer-bottom"><span>© 2026 SIDL. Все права защищены.</span>
+                <div class="legal"><a href="#">Datenschutz</a><a href="#">Impressum</a><a href="#">Условия
+                        использования</a></div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

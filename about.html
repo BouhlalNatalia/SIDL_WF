@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIDL — О нас</title>
+    <style>
+        :root {
+            --ink: #202a34;
+            --muted: #65717d;
+            --line: #aeb9c3;
+            --pale: #f1f3f5;
+            --dark: #202a34;
+            --white: #fff;
+            --radius: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            line-height: 1.45;
+            background: #fff;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        textarea {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1200px, calc(100% - 64px));
+            margin: auto;
+        }
+
+        header {
+            height: 88px;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            background: #fff;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: min(1340px, calc(100% - 48px));
+            margin: auto;
+            position: relative;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 20px;
+            z-index: 2;
+        }
+
+        .logo-placeholder {
+            height: 42px;
+            width: 42px;
+            border: 1px solid var(--line);
+            background: #eef0f2;
+            color: #697582;
+            display: grid;
+            place-items: center;
+            font-size: 10px;
+            font-weight: 400;
+        }
+
+        .links {
+            display: flex;
+            align-items: center;
+            gap: 34px;
+            font-size: 13px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        .links a.active {
+            font-weight: 700;
+            text-decoration: underline;
+            text-underline-offset: 8px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 2;
+        }
+
+        .lang-switch {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--ink);
+            border-radius: 999px;
+            padding: 10px 24px;
+            font-size: 13px;
+            font-weight: 700;
+            background: var(--ink);
+            color: #fff;
+            white-space: nowrap;
+        }
+
+        .hero {
+            padding: 76px 0 72px;
+            background: #fff;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .eyebrow {
+            font-size: 11px;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: 48px;
+            line-height: 1.12;
+            letter-spacing: -.8px;
+            margin: 0 0 22px;
+            font-weight: 700;
+        }
+
+        p {
+            margin: 0 0 14px;
+            color: var(--muted);
+        }
+
+        .hero p {
+            max-width: 590px;
+        }
+
+        .visual-placeholder {
+            height: 320px;
+            border: 1.5px solid var(--line);
+            border-radius: 12px;
+            background: #f1f3f5;
+            display: grid;
+            place-items: center;
+            padding: 30px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .section {
+            padding: 72px 0;
+        }
+
+        .soft {
+            background: linear-gradient(110deg, #f2f3f4, #eef0f2);
+            border-top: 1px dashed #c5ccd2;
+            border-bottom: 1px dashed #c5ccd2;
+        }
+
+        .section-head {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 42px;
+        }
+
+        .section-head .eyebrow {
+            margin-bottom: 12px;
+        }
+
+        .section-head h2 {
+            font-size: 34px;
+            line-height: 1.2;
+            margin: 0 0 14px;
+            letter-spacing: -.4px;
+        }
+
+        .section-head p {
+            margin: 0;
+        }
+
+        /* Наша миссия */
+        .mission-box {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .mission-box .eyebrow {
+            margin-bottom: 12px;
+        }
+
+        .mission-box h2 {
+            font-size: 36px;
+            line-height: 1.2;
+            margin: 0;
+            color: var(--ink);
+            font-weight: 700;
+        }
+
+        /* Карточки проблемы */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            border: 1.5px solid var(--line);
+            border-radius: 10px;
+            background: #fff;
+            padding: 28px;
+            min-height: 170px;
+        }
+
+        .card .eyebrow {
+            font-size: 10px;
+            margin-bottom: 8px;
+        }
+
+        .card h3 {
+            font-size: 18px;
+            margin: 0;
+            line-height: 1.35;
+            color: var(--ink);
+        }
+
+        .problem-conclusion {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--ink);
+            max-width: 800px;
+            margin: 28px auto 0;
+        }
+
+        /* Наш подход */
+        .approaches {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .approach {
+            border: 1.5px solid var(--line);
+            border-radius: 10px;
+            background: #fff;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .circle-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            border: 1px solid var(--line);
+            background: #eef0f2;
+            display: grid;
+            place-items: center;
+            font-size: 10px;
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+
+        .approach h3 {
+            font-size: 18px;
+            margin: 0 0 8px;
+        }
+
+        .approach p {
+            font-size: 13px;
+            margin: 0;
+        }
+
+        /* Блок "Мы только начинаем" */
+        .startup-section {
+            border-top: 1.5px dashed var(--line);
+            border-bottom: 1.5px dashed var(--line);
+            padding: 72px 0;
+            background: #fff;
+            text-align: center;
+        }
+
+        .startup-content {
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        .startup-content .eyebrow {
+            margin-bottom: 12px;
+        }
+
+        .startup-content h2 {
+            font-size: 34px;
+            line-height: 1.2;
+            margin: 0 0 16px;
+            letter-spacing: -.4px;
+            color: var(--ink);
+        }
+
+        .startup-content p {
+            margin: 0 0 24px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .startup-link {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .startup-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Контакты */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .contact-info h3 {
+            font-size: 22px;
+            margin: 0 0 10px;
+        }
+
+        .contact-form {
+            background: #fff;
+            border: 1.5px solid var(--line);
+            border-radius: 10px;
+            padding: 30px;
+        }
+
+        .field {
+            display: block;
+            width: 100%;
+            min-height: 42px;
+            border: 1px solid #aeb9c3;
+            border-radius: 6px;
+            padding: 12px 14px;
+            margin: 0 0 14px;
+            background: #fff;
+            color: var(--muted);
+        }
+
+        textarea.field {
+            height: 110px;
+            resize: vertical;
+        }
+
+        .consent {
+            font-size: 12px;
+            color: var(--muted);
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            margin: 12px 0 20px;
+            cursor: pointer;
+        }
+
+        .consent input {
+            margin-top: 3px;
+        }
+
+        /* Единый тёмный футер */
+        footer {
+            background: var(--dark);
+            color: #fff;
+            padding: 48px 0 32px;
+        }
+
+        .footer-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            padding-bottom: 32px;
+        }
+
+        .footer-brand {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .footer-brand small {
+            display: block;
+            font-size: 12px;
+            color: #aeb9c3;
+            font-weight: 400;
+            margin-top: 4px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 28px;
+            flex-wrap: wrap;
+            font-size: 13px;
+        }
+
+        .footer-links a {
+            color: #fff;
+        }
+
+        .footer-links a:hover {
+            opacity: .8;
+        }
+
+        .footer-top>a {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            font-size: 12px;
+            color: #aeb9c3;
+        }
+
+        .legal {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .legal a {
+            color: #aeb9c3;
+        }
+
+        .legal a:hover {
+            color: #fff;
+        }
+
+        @media(max-width:900px) {
+            .links {
+                position: static;
+                transform: none;
+                margin: 10px 0;
+            }
+
+            .nav {
+                flex-wrap: wrap;
+            }
+
+            .hero-grid,
+            .cards-grid,
+            .approaches,
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+
+            .hero {
+                padding: 40px 0;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            .footer-top,
+            .footer-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+
+        /* Форма обратной связи — оформление M4 */
+        .contact-form .m4-description { margin: 0 0 18px; color: var(--muted); font-size: 13px; }
+        .contact-form .m4-fields { display: grid; gap: 13px; }
+        .contact-form .m4-field-group { min-width: 0; }
+        .contact-form .m4-label { display: block; margin-bottom: 6px; font-size: 12px; font-weight: 700; color: var(--ink); }
+        .contact-form .m4-optional { color: var(--muted); font-size: 11px; font-weight: 400; }
+        .contact-form .m4-field { display: block; width: 100%; min-height: 42px; padding: 10px 11px; border: 1px solid #cfd6dd; border-radius: 8px; outline: none; background: #fff; color: var(--ink); font: 13px Arial, Helvetica, sans-serif; margin: 0; }
+        .contact-form .m4-field::placeholder { color: #89939d; }
+        .contact-form textarea.m4-field { min-height: 76px; height: auto; resize: vertical; }
+        .contact-form .m4-field:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, .12); }
+        .contact-form .m4-field.invalid { border-color: #b42318; }
+        .contact-form .m4-hint { margin: 5px 0 0; color: var(--muted); font-size: 12px; }
+        .contact-form .m4-error { margin: 5px 0 0; color: #b42318; font-size: 11px; }
+        .contact-form .m4-consent { display: flex; align-items: flex-start; gap: 8px; margin: 0; color: #515d68; font-size: 11px; line-height: 1.45; cursor: pointer; }
+        .contact-form .m4-consent input { margin: 3px 0 0; flex: none; accent-color: #2563eb; }
+        .contact-form .m4-consent a { color: #315ba8; text-decoration: underline; }
+        .contact-form .m4-consent-error { margin: 6px 0 0 22px; color: #b42318; font-size: 11px; }
+        .contact-form .m4-submit { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 43px; padding: 11px 16px; border: 1px solid var(--ink); border-radius: 999px; background: var(--ink); color: #fff; font: 700 13px Arial, Helvetica, sans-serif; text-align: center; cursor: pointer; }
+        .contact-form .m4-submit:hover { background: #303d49; }
+        .contact-form .m4-note { margin: 11px 0 0; color: var(--muted); font-size: 11px; text-align: center; }
+        .contact-form .m4-success { padding: 25px 19px 20px; text-align: center; }
+        .contact-form .m4-success-icon { display: grid; place-items: center; width: 48px; height: 48px; margin: 0 auto 14px; border-radius: 50%; background: #f0fdf4; color: #15803d; font-size: 27px; font-weight: 700; }
+        .contact-form .m4-success h3 { margin: 0 0 9px; font-size: 21px; line-height: 1.2; }
+        .contact-form .m4-success-lead { margin: 0 auto 19px; color: var(--muted); font-size: 13px; }
+        .contact-form .m4-step { display: flex; align-items: flex-start; gap: 10px; margin: 0 0 18px; padding: 11px; border: 1px solid #e5e9ed; border-radius: 10px; background: #fbfcfd; text-align: left; }
+        .contact-form .m4-step-icon { display: grid; place-items: center; width: 30px; height: 30px; flex: none; border-radius: 8px; background: #edf3ff; color: #2455b4; font-size: 16px; }
+        .contact-form .m4-step strong { display: block; margin-bottom: 3px; font-size: 12px; }
+        .contact-form .m4-step p { margin: 0; color: var(--muted); font-size: 11px; }
+        .contact-form .m4-success[hidden], .contact-form form[hidden] { display: none !important; }
+        @media(max-width: 900px) { .contact-form { padding: 22px; } }
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="nav">
+            <a class="brand" href="index.html">
+                <span class="logo-placeholder">Лого</span>
+                <span>SIDL</span>
+            </a>
+
+            <div class="links">
+                <a href="organizations.html">Организациям</a>
+                <a href="it-experience.html">IT-опыт</a>
+                <a class="active" href="about.html">О нас</a>
+            </div>
+
+            <div class="nav-right">
+                <a href="#" class="lang-switch">DE ▾</a>
+                <a class="pill" href="login.html">Войти</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero: О нас -->
+        <section class="hero">
+            <div class="container hero-grid">
+                <div>
+                    <div class="eyebrow">О нас</div>
+                    <h1>Объединяем идеи, задачи и людей</h1>
+                    <p>SIDL — цифровая лаборатория, которая создаёт условия для совместной работы организаций и команд
+                        над цифровыми проектами.</p>
+                </div>
+                <div class="visual-placeholder">
+                    [Сгенерированная картинка / иллюстрация: схема взаимодействия SIDL, объединяющая организации,
+                    задачи, процессы и IT-команды]
+                </div>
+            </div>
+        </section>
+
+        <!-- Наша миссия -->
+        <section class="section soft">
+            <div class="container">
+                <div class="mission-box">
+                    <div class="eyebrow">Наша миссия</div>
+                    <h2>Создавать пространство для сотрудничества и развития</h2>
+                </div>
+            </div>
+        </section>
+
+        <!-- Почему появилась идея SIDL -->
+        <section class="section">
+            <div class="container">
+                <div class="section-head">
+                    <div class="eyebrow">Почему появилась идея SIDL</div>
+                    <h2>Две стороны одной проблемы</h2>
+                    <p>Организациям нужны цифровые решения, а специалистам нужен опыт. Раньше они редко находили друг
+                        друга.</p>
+                </div>
+                <div class="cards-grid">
+                    <article class="card">
+                        <div class="eyebrow">Голос организации</div>
+                        <h3>«Нам нужен сайт, но мы не знаем, с чего начать»</h3>
+                        <p style="margin-top: 8px;">Не всегда понятно, как сформулировать задачу и в каком формате
+                            работать.</p>
+                    </article>
+                    <article class="card">
+                        <div class="eyebrow">Голос специалиста</div>
+                        <h3>«Везде просят опыт, а взять его негде»</h3>
+                        <p style="margin-top: 8px;">Курсы пройдены, но реальных проектов и портфолио нет.</p>
+                    </article>
+                </div>
+                <p class="problem-conclusion">SIDL соединяет эти две задачи: задача становится практикой, практика —
+                    результатом.</p>
+            </div>
+        </section>
+
+        <!-- Наш подход -->
+        <section class="section soft">
+            <div class="container">
+                <div class="section-head">
+                    <div class="eyebrow">Наш подход</div>
+                    <h2>Технологии как инструмент сотрудничества</h2>
+                    <p>Цифровой проект для нас — это не только разработка, а процесс, в котором важны понимание задачи и
+                        взаимодействие участников.</p>
+                </div>
+                <div class="approaches">
+                    <article class="approach">
+                        <div class="circle-icon">иконка</div>
+                        <h3>Сначала задача</h3>
+                        <p>Начинаем с понимания потребности и ожидаемого результата, а не с выбора технологии.</p>
+                    </article>
+                    <article class="approach">
+                        <div class="circle-icon">иконка</div>
+                        <h3>Понятный язык</h3>
+                        <p>Объясняем цифровые решения так, чтобы их понимали не только IT-специалисты.</p>
+                    </article>
+                    <article class="approach">
+                        <div class="circle-icon">иконка</div>
+                        <h3>Работа командой</h3>
+                        <p>Участники обсуждают, распределяют задачи и принимают решения вместе.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Блок "Мы только начинаем" -->
+        <section class="startup-section">
+            <div class="container">
+                <div class="startup-content">
+                    <div class="eyebrow">Мы только начинаем</div>
+                    <h2>Растём вместе с первыми участниками</h2>
+                    <p>SIDL находится на раннем этапе развития. Первые организации и специалисты влияют на то, как
+                        платформа будет работать дальше. Если у вас есть идея или предложение, напишите нам.</p>
+                    <a class="startup-link" href="#contact">Написать нам ↓</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Контакты и форма -->
+        <section class="section soft" id="contact">
+            <div class="container contact-grid">
+                <div class="contact-info">
+                    <div class="eyebrow">Контакты</div>
+                    <h3>Есть вопрос?</h3>
+                    <p>Хотите узнать больше о SIDL или предложить сотрудничество? Свяжитесь с нами удобным способом.</p>
+                    <p style="margin-top: 20px;"><strong>ЭЛЕКТРОННАЯ ПОЧТА</strong><br><a href="mailto:info@sidl.org"
+                            style="font-weight: 700;">info@sidl.org</a></p>
+                    <p style="font-size: 12px; color: var(--muted); margin-top: 4px;">Для вопросов и предложений о
+                        сотрудничестве.</p>
+                </div>
+                <div class="contact-form">
+                    <div class="eyebrow" style="margin-bottom: 12px;">Написать нам</div>
+                    <p class="m4-description">Расскажите нам о вашем вопросе — команда SIDL ознакомится с обращением и свяжется с вами удобным способом.</p>
+                    <form id="about-contact-form" class="m4-fields" novalidate>
+                        <div class="m4-field-group">
+                            <label class="m4-label" for="about-contact-name">Имя или организация *</label>
+                            <input class="m4-field" id="about-contact-name" name="name" autocomplete="name" placeholder="Как к вам обращаться" required>
+                            <p class="m4-error" id="about-contact-name-error" hidden>Укажите имя или организацию.</p>
+                        </div>
+                        <div class="m4-field-group">
+                            <label class="m4-label" for="about-contact-email">Электронная почта *</label>
+                            <input class="m4-field" id="about-contact-email" name="email" type="email" autocomplete="email" placeholder="name@example.com" required>
+                            <p class="m4-error" id="about-contact-email-error" hidden>Введите корректный e-mail.</p>
+                        </div>
+                        <div class="m4-field-group">
+                            <label class="m4-label" for="about-contact-phone">Телефон <span class="m4-optional">(необязательно)</span></label>
+                            <input class="m4-field" id="about-contact-phone" name="phone" type="tel" autocomplete="tel" placeholder="+49 …">
+                            <p class="m4-hint">Укажите номер, если вам удобнее получить ответ по телефону.</p>
+                        </div>
+                        <div class="m4-field-group">
+                            <label class="m4-label" for="about-contact-message">Ваше сообщение *</label>
+                            <textarea class="m4-field" id="about-contact-message" name="message" placeholder="Напишите ваш вопрос или предложение" required></textarea>
+                            <p class="m4-error" id="about-contact-message-error" hidden>Введите текст сообщения.</p>
+                        </div>
+                        <div>
+                            <label class="m4-consent" for="about-contact-consent">
+                                <input id="about-contact-consent" name="consent" type="checkbox" required>
+                                <span>Я согласен(на) на обработку персональных данных. <a href="privacy.html">Политика конфиденциальности</a></span>
+                            </label>
+                            <p class="m4-consent-error" id="about-contact-consent-error" hidden>Необходимо согласие на обработку данных.</p>
+                        </div>
+                        <button class="m4-submit" type="submit">Отправить сообщение →</button>
+                        <p class="m4-note">* Обязательные поля.</p>
+                    </form>
+                    <div class="m4-success" id="about-contact-success" role="status" aria-live="polite" hidden>
+                        <div class="m4-success-icon" aria-hidden="true">✓</div>
+                        <h3>Спасибо за обращение!</h3>
+                        <p class="m4-success-lead">Ваше сообщение успешно отправлено.</p>
+                        <div class="m4-step">
+                            <span class="m4-step-icon" aria-hidden="true">✉</span>
+                            <div><strong>Что дальше?</strong><p>Команда SIDL ознакомится с вашим обращением и свяжется с вами удобным для вас способом.</p></div>
+                        </div>
+                        <button class="m4-submit" id="about-contact-success-close" type="button">Понятно</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">SIDL<small>Платформа цифровых инноваций</small></div>
+                <div class="footer-links">
+                    <a href="organizations.html">Организациям</a>
+                    <a href="it-experience.html">IT-опыт</a>
+                    <a href="about.html">О нас</a>
+                </div>
+                <a href="mailto:info@sidl.org">info@sidl.org</a>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 SIDL. Все права защищены.</span>
+                <div class="legal">
+                    <a href="privacy.html">Datenschutz</a>
+                    <a href="impressum.html">Impressum</a>
+                    <a href="terms.html">Условия использования</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+<script>
+(function () {
+    const form = document.getElementById('about-contact-form');
+    const success = document.getElementById('about-contact-success');
+    if (!form || !success) return;
+
+    const fields = {
+        name: document.getElementById('about-contact-name'),
+        email: document.getElementById('about-contact-email'),
+        message: document.getElementById('about-contact-message')
+    };
+    const consent = document.getElementById('about-contact-consent');
+
+    function showError(field, error, invalid) {
+        field.classList.toggle('invalid', invalid);
+        if (invalid) field.setAttribute('aria-invalid', 'true');
+        else field.removeAttribute('aria-invalid');
+        error.hidden = !invalid;
+    }
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const nameError = document.getElementById('about-contact-name-error');
+        const emailError = document.getElementById('about-contact-email-error');
+        const messageError = document.getElementById('about-contact-message-error');
+        const consentError = document.getElementById('about-contact-consent-error');
+        const nameInvalid = !fields.name.value.trim();
+        const emailInvalid = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email.value.trim());
+        const messageInvalid = !fields.message.value.trim();
+        showError(fields.name, nameError, nameInvalid);
+        showError(fields.email, emailError, emailInvalid);
+        showError(fields.message, messageError, messageInvalid);
+        consentError.hidden = consent.checked;
+        if (nameInvalid || emailInvalid || messageInvalid || !consent.checked) {
+            const firstInvalid = nameInvalid ? fields.name : emailInvalid ? fields.email : messageInvalid ? fields.message : consent;
+            firstInvalid.focus();
+            return;
+        }
+        // Демонстрационное состояние успеха: для реальной отправки нужен серверный обработчик.
+        form.hidden = true;
+        success.hidden = false;
+    });
+
+    document.getElementById('about-contact-success-close').addEventListener('click', function () {
+        success.hidden = true;
+        form.hidden = false;
+        form.reset();
+        Object.keys(fields).forEach(function (key) {
+            showError(fields[key], document.getElementById('about-contact-' + key + '-error'), false);
+        });
+        document.getElementById('about-contact-consent-error').hidden = true;
+    });
+})();
+</script>
+
+</body>
+
+</html>

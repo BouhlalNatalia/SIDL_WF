@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIDL — Datenschutz / Политика конфиденциальности</title>
+    <style>
+        :root {
+            --ink: #202a34;
+            --muted: #65717d;
+            --line: #aeb9c3;
+            --pale: #f1f3f5;
+            --dark: #202a34;
+            --white: #fff;
+            --radius: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            background: #fff;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(900px, calc(100% - 48px));
+            margin: auto;
+        }
+
+        /* HEADER */
+        header {
+            height: 88px;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            background: #fff;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: min(1340px, calc(100% - 48px));
+            margin: auto;
+            position: relative;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 20px;
+            z-index: 2;
+        }
+
+        .logo-placeholder {
+            height: 42px;
+            width: 42px;
+            border: 1px solid var(--line);
+            background: #eef0f2;
+            color: #697582;
+            display: grid;
+            place-items: center;
+            font-size: 10px;
+            font-weight: 400;
+        }
+
+        .links {
+            display: flex;
+            align-items: center;
+            gap: 34px;
+            font-size: 13px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 2;
+        }
+
+        .lang-switch {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--ink);
+            border-radius: 999px;
+            padding: 10px 24px;
+            font-size: 13px;
+            font-weight: 700;
+            background: var(--ink);
+            color: #fff;
+            white-space: nowrap;
+        }
+
+        /* LEGAL CONTENT */
+        .legal-page {
+            padding: 60px 0 80px;
+        }
+
+        .eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 38px;
+            line-height: 1.2;
+            margin: 0 0 16px;
+            font-weight: 700;
+        }
+
+        .doc-meta {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .legal-content h2 {
+            font-size: 20px;
+            margin: 32px 0 12px;
+            color: var(--ink);
+        }
+
+        .legal-content p {
+            color: #4a5568;
+            margin: 0 0 16px;
+        }
+
+        .legal-content ul {
+            margin: 0 0 20px 20px;
+            padding: 0;
+            color: #4a5568;
+        }
+
+        .legal-content li {
+            margin-bottom: 8px;
+        }
+
+        .note-box {
+            background: var(--pale);
+            border-left: 3px solid var(--ink);
+            padding: 16px 20px;
+            font-size: 13px;
+            color: var(--muted);
+            margin: 24px 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--dark);
+            color: #fff;
+            padding: 48px 0 32px;
+        }
+
+        .footer-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            padding-bottom: 32px;
+        }
+
+        .footer-brand {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .footer-brand small {
+            display: block;
+            font-size: 12px;
+            color: #aeb9c3;
+            font-weight: 400;
+            margin-top: 4px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 28px;
+            flex-wrap: wrap;
+            font-size: 13px;
+        }
+
+        .footer-links a {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            font-size: 12px;
+            color: #aeb9c3;
+        }
+
+        .legal-nav {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .legal-nav a {
+            color: #aeb9c3;
+        }
+
+        .legal-nav a.active {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 900px) {
+            .links {
+                position: static;
+                transform: none;
+                margin: 10px 0;
+            }
+
+            .nav {
+                flex-wrap: wrap;
+            }
+
+            .footer-top,
+            .footer-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <nav class="nav">
+            <a class="brand" href="index.html">
+                <span class="logo-placeholder">Лого</span>
+                <span>SIDL</span>
+            </a>
+
+            <div class="links">
+                <a href="organizations.html">Организациям</a>
+                <a href="it-experience.html">IT-опыт</a>
+                <a href="about.html">О нас</a>
+            </div>
+
+            <div class="nav-right">
+                <a href="#" class="lang-switch">DE ▾</a>
+                <a class="pill" href="login.html">Войти</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="legal-page">
+        <div class="container">
+            <div class="eyebrow">Юридическая информация</div>
+            <h1>Datenschutz / Политика конфиденциальности</h1>
+            <div class="doc-meta">
+                Последнее обновление: 2026 год • Формулировки и юридическую силу подтверждает юрист
+            </div>
+
+            <div class="legal-content">
+                <div class="note-box">
+                    Шаблон документа для страниц /privacy, /impressum и /terms. Ниже приведена примерная структура юридического документа.
+                </div>
+
+                <h2>1. Общие положения</h2>
+                <p>Платформа SIDL с уважением относится к конфиденциальности персональных данных своих пользователей. Данный документ описывает, какие данные собираются при использовании сайта, а также цели и порядок их обработки.</p>
+
+                <h2>2. Какие данные мы собираем</h2>
+                <p>Мы обрабатываем только ту информацию, которую вы добровольно предоставляете нам через формы обратной связи и заявки на участие:</p>
+                <ul>
+                    <li>Имя, фамилия и контактное лицо организации;</li>
+                    <li>Адрес электронной почты (e-mail);</li>
+                    <li>Информация о выбранных ролях и проектах;</li>
+                    <li>Содержание сообщений и описаний задач.</li>
+                </ul>
+
+                <h2>3. Цели обработки данных</h2>
+                <p>Персональные данные используются исключительно для выполнения заявленных функций платформы:</p>
+                <ul>
+                    <li>Связь с организациями для обсуждения цифровых проектов;</li>
+                    <li>Рассмотрение заявок участников на включение в IT-команды;</li>
+                    <li>Создание и поддержание аккаунта пользователя со статусом заявки.</li>
+                </ul>
+
+                <h2>4. Хранение и защита информации</h2>
+                <p>Все персональные данные хранятся на защищенных серверах в соответствии с правилами GDPR (General Data Protection Regulation). Мы не передаём ваши данные третьим лицам без вашего прямого согласия.</p>
+
+                <h2>5. Права пользователя</h2>
+                <p>Вы имеете право в любой момент запросить информацию о хранящихся у нас персональных данных, изменить их или затребовать полное удаление вашего профиля и истории сообщений.</p>
+
+                <h2>6. Контакты по вопросам конфиденциальности</h2>
+                <p>Если у вас возникли вопросы по поводу обработки данных, свяжитесь с нами по электронной почте: <a href="mailto:info@sidl.org" style="text-decoration: underline; font-weight: 700;">info@sidl.org</a>.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    SIDL
+                    <small>Платформа цифровых инноваций</small>
+                </div>
+                <div class="footer-links">
+                    <a href="organizations.html">Организациям</a>
+                    <a href="it-experience.html">IT-опыт</a>
+                    <a href="about.html">О нас</a>
+                </div>
+                <a href="mailto:info@sidl.org">info@sidl.org</a>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 SIDL. Все права защищены.</span>
+                <div class="legal-nav">
+                    <a class="active" href="privacy.html">Datenschutz</a>
+                    <a href="impressum.html">Impressum</a>
+                    <a href="terms.html">Условия использования</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

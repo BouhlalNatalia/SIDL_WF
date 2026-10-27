@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIDL — Личный кабинет и статус заявки</title>
+    <style>
+        :root {
+            --ink: #202a34;
+            --muted: #65717d;
+            --line: #aeb9c3;
+            --pale: #f1f3f5;
+            --dark: #202a34;
+            --success: #137333;
+            --success-bg: #e6f4ea;
+            --white: #fff;
+            --radius: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            line-height: 1.45;
+            background: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1200px, calc(100% - 48px));
+            margin: auto;
+        }
+
+        /* HEADER */
+        header {
+            height: 88px;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            background: #fff;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: min(1340px, calc(100% - 48px));
+            margin: auto;
+            position: relative;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 20px;
+            z-index: 2;
+        }
+
+        .logo-placeholder {
+            height: 42px;
+            width: 42px;
+            border: 1px solid var(--line);
+            background: #eef0f2;
+            color: #697582;
+            display: grid;
+            place-items: center;
+            font-size: 10px;
+            font-weight: 400;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 13px;
+        }
+
+        .user-pill {
+            background: var(--pale);
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-weight: 700;
+        }
+
+        .logout-btn {
+            color: var(--muted);
+            text-decoration: underline;
+        }
+
+        /* ACCOUNT CONTENT */
+        .account-main {
+            padding: 40px 0 60px;
+            flex: 1;
+        }
+
+        .account-header {
+            margin-bottom: 32px;
+        }
+
+        .account-header h1 {
+            font-size: 28px;
+            margin: 0 0 6px;
+        }
+
+        .account-header p {
+            color: var(--muted);
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 24px;
+        }
+
+        .card h2 {
+            font-size: 18px;
+            margin: 0 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* STATUS TIMELINE */
+        .status-badge {
+            background: var(--success-bg);
+            color: var(--success);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 999px;
+            display: inline-block;
+        }
+
+        .timeline {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+        }
+
+        .timeline-step {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .step-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--line);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-size: 11px;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .timeline-step.completed .step-dot {
+            background: var(--success);
+        }
+
+        .timeline-step.active .step-dot {
+            background: var(--ink);
+            box-shadow: 0 0 0 4px #e2e8f0;
+        }
+
+        .step-content h4 {
+            margin: 0 0 2px;
+            font-size: 14px;
+        }
+
+        .step-content p {
+            margin: 0;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .project-details {
+            background: var(--pale);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+
+        .project-details p {
+            margin: 0 0 8px;
+        }
+
+        .project-details p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* PROFILE SUMMARY CARD */
+        .profile-row {
+            margin-bottom: 14px;
+            font-size: 13px;
+        }
+
+        .profile-row span {
+            display: block;
+            font-size: 11px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--dark);
+            color: #fff;
+            padding: 48px 0 32px;
+        }
+
+        .footer-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            padding-bottom: 32px;
+        }
+
+        .footer-brand {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .footer-brand small {
+            display: block;
+            font-size: 12px;
+            color: #aeb9c3;
+            font-weight: 400;
+            margin-top: 4px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 28px;
+            flex-wrap: wrap;
+            font-size: 13px;
+        }
+
+        .footer-links a {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            font-size: 12px;
+            color: #aeb9c3;
+        }
+
+        .legal-nav {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .legal-nav a {
+            color: #aeb9c3;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav {
+                flex-wrap: wrap;
+            }
+
+            .footer-top,
+            .footer-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <nav class="nav">
+            <a class="brand" href="index.html">
+                <span class="logo-placeholder">Лого</span>
+                <span>SIDL</span>
+            </a>
+
+            <div class="user-menu">
+                <span class="user-pill">Алексей Иванов (UI/UX)</span>
+                <a class="logout-btn" href="login.html">Выйти</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ACCOUNT MAIN -->
+    <main class="account-main">
+        <div class="container">
+            <div class="account-header">
+                <h1>Личный кабинет</h1>
+                <p>Статус вашей заявки на участие в цифровых проектах SIDL</p>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- LEFT COLUMN: APPLICATION STATUS -->
+                <div>
+                    <div class="card">
+                        <h2>
+                            <span>Заявка на участие</span>
+                            <span class="status-badge">Одобрено · Активен</span>
+                        </h2>
+
+                        <div class="project-details">
+                            <p><strong>Выбранный проект:</strong> Цифровая платформа SIDL</p>
+                            <p><strong>Роль в команде:</strong> UI/UX-дизайнер</p>
+                            <p><strong>Дата подачи:</strong> 12 октября 2026</p>
+                        </div>
+
+                        <div class="timeline">
+                            <div class="timeline-step completed">
+                                <div class="step-dot">✓</div>
+                                <div class="step-content">
+                                    <h4>Заявка отправлена</h4>
+                                    <p>Ваша анкета успешно зарегистрирована в системе.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-step completed">
+                                <div class="step-dot">✓</div>
+                                <div class="step-content">
+                                    <h4>Рассмотрение экспертами</h4>
+                                    <p>Команда проверила ваш опыт и квалификацию.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-step active">
+                                <div class="step-dot">3</div>
+                                <div class="step-content">
+                                    <h4>Включение в команду проекта</h4>
+                                    <p>Вы добавлены в рабочий процесс. Ожидайте вводных материалов.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2>Материалы проекта</h2>
+                        <p style="color: var(--muted); margin-bottom: 16px; font-size: 13px;">Здесь будут доступны ссылки на рабочий репозиторий, макеты Figma и внутренние документы команды после согласования доступа.</p>
+                        <a href="#" style="font-weight: 700; text-decoration: underline;">Перейти к материалам рабочей группы →</a>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN: PROFILE INFO -->
+                <div>
+                    <div class="card">
+                        <h2>Профиль</h2>
+                        <div class="profile-row">
+                            <span>Имя и фамилия</span>
+                            <strong>Алексей Иванов</strong>
+                        </div>
+                        <div class="profile-row">
+                            <span>E-mail</span>
+                            <strong>alex.ivanov@domain.com</strong>
+                        </div>
+                        <div class="profile-row">
+                            <span>Роль</span>
+                            <strong>UI/UX-дизайнер</strong>
+                        </div>
+                        <div class="profile-row" style="margin-bottom: 0;">
+                            <span>Статус аккаунта</span>
+                            <strong>Подтвержден</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    SIDL
+                    <small>Платформа цифровых инноваций</small>
+                </div>
+                <div class="footer-links">
+                    <a href="organizations.html">Организациям</a>
+                    <a href="it-experience.html">IT-опыт</a>
+                    <a href="about.html">О нас</a>
+                </div>
+                <a href="mailto:info@sidl.org">info@sidl.org</a>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 SIDL. Все права защищены.</span>
+                <div class="legal-nav">
+                    <a href="privacy.html">Datenschutz</a>
+                    <a href="impressum.html">Impressum</a>
+                    <a href="terms.html">Условия использования</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
